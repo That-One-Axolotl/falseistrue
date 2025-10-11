@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>is true true or is false true?</title>
+    </head>
+    <body>
+        <h1>Is true true or is false true?</h1>
+        <p>Your goal is simple, guess true or false, are you correct, or is true false?</p>
+        <div id = "game">
+            <h3 id = "question">True?</h3>
+            <button id="true">True</button>
+            <button id="false">False</button>
+            <h4 id = "streak">Streak: 0</h4>
+        </div>
+    </body>
+</html>
+<style>
+    *{
+        text-align: center;
+    }
+</style>
+<script>
+    let correctAnswer = Math.random() >= 0.5;
+    let Streak = 0;
+    const question = document.getElementById("question");
+    const streakText = document.getElementById("streak");
+    const trueButton = document.getElementById("true");
+    const falseButton = document.getElementById("false");
+
+    trueButton.addEventListener("click", () => {
+        if (correctAnswer == true){
+            Streak += 1;
+            streakText.textContent = `Streak: ${Streak}`;
+        }
+        else{
+            Streak = 0;
+            streakText.textContent = `Streak: ${Streak}`;
+        }
+        correctAnswer = Math.random() >= 0.5;
+    }) 
+
+    falseButton.addEventListener("click", () => {
+        if (correctAnswer == false){
+            Streak += 1;
+            streakText.textContent = `Streak: ${Streak}`;
+        }
+        else{
+            Streak = 0;
+            streakText.textContent = `Streak: ${Streak}`;
+        }
+        correctAnswer = Math.random() >= 0.5;
+    })
+    
+</script>
