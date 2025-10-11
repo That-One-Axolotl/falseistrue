@@ -23,7 +23,7 @@
     let correctAnswer = Math.random() >= 0.5;
     let Streak = 0;
     let state = 1;
-    let song = normalSong;
+    
     const question = document.getElementById("question");
     const streakText = document.getElementById("streak");
     const trueButton = document.getElementById("true");
@@ -36,6 +36,7 @@
     const harderSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/harder.wav");
     const extremeSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/extreme.wav");
     const HOWSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/HOW.wav");
+    let song = normalSong;
 
     trueButton.addEventListener("click", () => {
         correctAudio.pause();
