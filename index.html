@@ -22,12 +22,20 @@
 <script>
     let correctAnswer = Math.random() >= 0.5;
     let Streak = 0;
+    let state = 1;
+    let song = normalSong;
     const question = document.getElementById("question");
     const streakText = document.getElementById("streak");
     const trueButton = document.getElementById("true");
     const falseButton = document.getElementById("false");
     const correctAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/correct.mp3");
     const falseAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/wrong.mp3");
+    const normalSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/Normal.wav");
+    const mediumSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/medium.wav");
+    const hardSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/hard.wav");
+    const harderSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/harder.wav");
+    const extremeSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/extreme.wav");
+    const HOWSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/HOW.wav");
 
     trueButton.addEventListener("click", () => {
         correctAudio.pause();
@@ -46,6 +54,7 @@
         }
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
+        changeState(streak);
     }) 
 
     falseButton.addEventListener("click", () => {
@@ -65,6 +74,53 @@
         }
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
+        changeState(streak);
+    })
+
+    function changeState(streak){
+        if (streak >= 0){
+            state = 1;
+        }
+        if (streak >= 2){
+            state = 2;
+        }
+        if (streak >= 5){
+            state = 3;
+        }
+        if (streak >= 7){
+            state = 4;
+        }
+        if (streak >= 10){
+            state = 5;
+            //FINAL BOSS
+        }
+        if (streak >= 12){
+            state = 6;
+            //OH NO
+        }
+    }
+
+    //audio
+    song.addEventListener("ended", () => {
+        if (state == 1){
+            song = normalSong;
+        }
+        if(state == 2){
+            song = mediumSong;
+        }
+        if(state == 3){
+            song = hardSong;
+        }
+        if(state == 4){
+            song = harderSong;
+        }
+        if(state == 5){
+            song = extremeSong;
+        }
+        if(state == 6){
+            song = HOWSong;
+        }
+        song.play();
     })
     
 </script>
