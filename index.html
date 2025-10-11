@@ -11,6 +11,7 @@
             <button id="true">True</button>
             <button id="false">False</button>
             <h4 id = "streak">Streak: 0</h4>
+            <h3 id = "chance">100%</h3>
         </div>
     </body>
 </html>
@@ -28,6 +29,7 @@
     const streakText = document.getElementById("streak");
     const trueButton = document.getElementById("true");
     const falseButton = document.getElementById("false");
+    const chances = document.getElementById("chance");
     const correctAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/correct.mp3");
     const falseAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/wrong.mp3");
     const normalSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/Normal.wav");
@@ -56,6 +58,7 @@
         }
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
+        chances.textContent = `${1/(Math.pow(2, Streak)) * 100}%`;
         statevar = changeState(Streak);
         playNextTrack();
     }) 
@@ -77,6 +80,7 @@
         }
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
+        chances.textContent = `${1/(Math.pow(2, Streak)) * 100}%`;
         statevar = changeState(Streak);
         playNextTrack();
     })
