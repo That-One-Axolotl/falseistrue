@@ -22,7 +22,7 @@
 <script>
     let correctAnswer = Math.random() >= 0.5;
     let Streak = 0;
-    let state = 1;
+    let statevar = 1;
     
     const question = document.getElementById("question");
     const streakText = document.getElementById("streak");
@@ -37,6 +37,7 @@
     const extremeSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/extreme.wav");
     const HOWSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/HOW.wav");
     let song = normalSong;
+    
 
     trueButton.addEventListener("click", () => {
         correctAudio.pause();
@@ -55,7 +56,8 @@
         }
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
-        changeState(streak);
+        statevar = changeState(Streak);
+        playNextTrack();
     }) 
 
     falseButton.addEventListener("click", () => {
@@ -75,53 +77,61 @@
         }
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
-        changeState(streak);
+        statevar = changeState(Streak);
+        playNextTrack();
     })
 
     function changeState(streak){
         if (streak >= 0){
-            state = 1;
+            statevar = 1;
         }
         if (streak >= 2){
-            state = 2;
+            statevar = 2;
         }
         if (streak >= 5){
-            state = 3;
+            statevar = 3;
         }
         if (streak >= 7){
-            state = 4;
+            statevar = 4;
         }
         if (streak >= 10){
-            state = 5;
+            statevar = 5;
             //FINAL BOSS
         }
         if (streak >= 12){
-            state = 6;
+            statevar = 6;
             //OH NO
         }
+        return(statevar);
     }
 
     //audio
-    song.addEventListener("ended", () => {
-        if (state == 1){
-            song = normalSong;
+    function getSongByState(state) {
+        switch (state) {
+            case 1: return normalSong;
+            case 2: return mediumSong;
+            case 3: return hardSong;
+            case 4: return harderSong;
+            case 5: return extremeSong;
+            case 6: return HOWSong;
+            default: return normalSong;
         }
-        if(state == 2){
-            song = mediumSong;
+    }
+
+    function playNextTrack() {
+        const nextSong = getSongByState(statevar);
+
+        if (song && song !== nextSong) {
+            song.pause();
+            song.currentTime = 0;
+            song.removeEventListener("ended", playNextTrack);
         }
-        if(state == 3){
-            song = hardSong;
-        }
-        if(state == 4){
-            song = harderSong;
-        }
-        if(state == 5){
-            song = extremeSong;
-        }
-        if(state == 6){
-            song = HOWSong;
-        }
-        song.play();
-    })
-    
+
+        song = nextSong;
+        song.removeEventListener("ended", playNextTrack); // prevent stacking
+        song.addEventListener("ended", playNextTrack);
+        song.play().catch(err => console.error("Playback failed:", err));
+    }
+
+
 </script>
