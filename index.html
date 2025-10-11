@@ -26,15 +26,19 @@
     const streakText = document.getElementById("streak");
     const trueButton = document.getElementById("true");
     const falseButton = document.getElementById("false");
+    const correctAudio = new Audio("https://that-one-axolotl.github.com/falseistrue/correct.mp3");
+    const falseAudio = new Audio("https://that-one-axolotl.github.com/falseistrue/false.mp3");
 
     trueButton.addEventListener("click", () => {
         if (correctAnswer == true){
             Streak += 1;
             streakText.textContent = `Streak: ${Streak}`;
+            correctAudio.play();
         }
         else{
             Streak = 0;
             streakText.textContent = `Streak: ${Streak}`;
+            falseAudio.play();
         }
         correctAnswer = Math.random() >= 0.5;
     }) 
@@ -43,10 +47,12 @@
         if (correctAnswer == false){
             Streak += 1;
             streakText.textContent = `Streak: ${Streak}`;
+            correctAudio.play();
         }
         else{
             Streak = 0;
             streakText.textContent = `Streak: ${Streak}`;
+            falseAudio.play();
         }
         correctAnswer = Math.random() >= 0.5;
     })
