@@ -7,7 +7,7 @@
         <h1>Is true true or is false true?</h1>
         <p>Your goal is simple, guess true or false, are you correct, or is true false?</p>
         <div id = "game">
-            <h3 id = "question">True?</h3>
+            <h3 id = "question">true?</h3>
             <button id="true">True</button>
             <button id="false">False</button>
             <h4 id = "streak">Streak: 0</h4>
@@ -26,10 +26,14 @@
     const streakText = document.getElementById("streak");
     const trueButton = document.getElementById("true");
     const falseButton = document.getElementById("false");
-    const correctAudio = new Audio("https://that-one-axolotl.github.com/falseistrue/correct.mp3");
-    const falseAudio = new Audio("https://that-one-axolotl.github.com/falseistrue/false.mp3");
+    const correctAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/correct.mp3");
+    const falseAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/wrong.mp3");
 
     trueButton.addEventListener("click", () => {
+        correctAudio.pause();
+        falseAudio.pause();
+        correctAudio.currentTime = 0;
+        falseAudio.currentTime = 0;
         if (correctAnswer == true){
             Streak += 1;
             streakText.textContent = `Streak: ${Streak}`;
@@ -41,9 +45,14 @@
             falseAudio.play();
         }
         correctAnswer = Math.random() >= 0.5;
+        question.textContent = `${Math.random() >= 0.5}?`
     }) 
 
     falseButton.addEventListener("click", () => {
+        correctAudio.pause();
+        falseAudio.pause();
+        correctAudio.currentTime = 0;
+        falseAudio.currentTime = 0;
         if (correctAnswer == false){
             Streak += 1;
             streakText.textContent = `Streak: ${Streak}`;
@@ -55,6 +64,7 @@
             falseAudio.play();
         }
         correctAnswer = Math.random() >= 0.5;
+        question.textContent = `${Math.random() >= 0.5}?`
     })
     
 </script>
