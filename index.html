@@ -11,6 +11,8 @@
             <button id="true">True</button>
             <button id="false">False</button>
             <h4 id = "streak">Streak: 0</h4>
+            <h4 id = "highScore">High Score: 0</h4>
+            <h4 id = "clicks">Clicks: 0</h4>
             <h3 id = "chance">100%</h3>
         </div>
     </body>
@@ -24,12 +26,17 @@
     let correctAnswer = Math.random() >= 0.5;
     let Streak = 0;
     let statevar = 1;
+    let clicks = 0;
+    let highScore = 0;
+
     
     const question = document.getElementById("question");
     const streakText = document.getElementById("streak");
     const trueButton = document.getElementById("true");
     const falseButton = document.getElementById("false");
     const chances = document.getElementById("chance");
+    const clickstext = document.getElementById("clicks");
+    const highScoreText = document.getElementById("highScore");
     const correctAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/correct.mp3");
     const falseAudio = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/wrong.mp3");
     const normalSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/Normal.wav");
@@ -39,7 +46,14 @@
     const extremeSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/extreme.wav");
     const HOWSong = new Audio("https://that-one-axolotl.github.io/falseistrue/sounds/HOW.wav");
     let song = normalSong;
-    
+
+    const savedHighScore = getCookie("highscore");
+    if (savedHighScore !== null) {
+        highScore = parseInt(savedHighScore) || 0;
+        highScoreText.textContent = `High Score: ${highScore}`;
+    }
+
+
 
     trueButton.addEventListener("click", () => {
         correctAudio.pause();
@@ -59,7 +73,13 @@
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
         chances.textContent = `${1/(Math.pow(2, Streak)) * 100}%`;
+        clicks += 1;
+        clickstext.textContent = `Clicks: ${clicks}`;
         statevar = changeState(Streak);
+        console.log("highscore: ", highScore)
+        if(Streak > highScore){
+            increaseHighScore(Streak);
+        }
         playNextTrack();
     }) 
 
@@ -81,7 +101,13 @@
         correctAnswer = Math.random() >= 0.5;
         question.textContent = `${Math.random() >= 0.5}?`
         chances.textContent = `${1/(Math.pow(2, Streak)) * 100}%`;
+        clicks += 1;
+        clickstext.textContent = `Clicks: ${clicks}`;
         statevar = changeState(Streak);
+        console.log("highscore: ", highScore)
+        if(Streak > highScore){
+            increaseHighScore(Streak);
+        }
         playNextTrack();
     })
 
@@ -137,5 +163,23 @@
         song.play().catch(err => console.error("Playback failed:", err));
     }
 
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return null;
+    }
+
+    function increaseHighScore(score){
+        highScore = score;
+        highScoreText.textContent = `High Score: ${highScore}`;
+        const date = new Date();
+        date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+        document.cookie = `highscore=${score}; expires=${date.toUTCString()}; path=/`;
+    }
 
 </script>
